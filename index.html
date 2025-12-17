@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NotifyMe Pro | Universal Reminder App</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f14;--card:rgba(255,255,255,0.08);
+  --primary:#00f6ff;--secondary:#7cff6b;
+  --danger:#ff4d4d;--text:#e6f1ff;--muted:#9aa4b2;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(rgba(0,246,255,.15)1.2px,transparent 1px);background-size:32px 32px;animation:bg 25s linear infinite;z-index:-1}
+@keyframes bg{to{background-position:400px 0}}
+.app{max-width:1100px;margin:auto;display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{padding:20px;border-right:1px solid rgba(255,255,255,.1)}
+aside h1{font-family:Orbitron;color:var(--primary)}
+aside div{padding:12px;border-radius:12px;color:var(--muted)}
+main{padding:20px}
+.card{background:linear-gradient(135deg,var(--card),transparent);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:16px;margin-bottom:16px}
+input,select,button{width:100%;padding:12px;border-radius:12px;border:none;margin-bottom:10px}
+input,select{background:rgba(255,255,255,.1);color:var(--text)}
+button{background:linear-gradient(90deg,var(--primary),var(--secondary));font-weight:600}
+ul{list-style:none;padding:0}
+li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:14px;display:flex;justify-content:space-between;margin-bottom:10px}
+li.done{text-decoration:line-through;opacity:.6}
+.time{font-size:.75rem;color:var(--muted)}
+.stats{display:flex;gap:10px}
+.stats div{flex:1;text-align:center}
+.focus{text-align:center}
+.timer{font-size:2.5rem;font-family:Orbitron;margin:10px 0}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+<h1>NotifyMe</h1>
+<div>Tasks</div><div>Focus</div><div>Profile</div>
+</aside>
+<main>
+<div class="card">
+<input id="task" placeholder="New task">
+<input id="time" type="datetime-local">
+<select id="repeat">
+<option value="none">No Repeat</option>
+<option value="daily">Daily</option>
+<option value="weekly">Weekly</option>
+</select>
+<button onclick="addTodo()">Add Reminder</button>
+</div>
+<ul id="list"></ul>
+<div class="card stats">
+<div>Total<br><b id="total">0</b></div>
+<div>Done<br><b id="done">0</b></div>
+<div>Pending<br><b id="pending">0</b></div>
+</div>
+<div class="card focus">
+<h3>Focus Mode (25 min)</h3>
+<div class="timer" id="timer">25:00</div>
+<button onclick="startFocus()">Start Focus</button>
+</div>
+</main>
+</div>
+<script>
+if('Notification'in window)Notification.requestPermission();
+let todos=JSON.parse(localStorage.getItem('todos')||'[]');
+let focusInt,seconds=1500;
+function save(){localStorage.setItem('todos',JSON.stringify(todos))}
+function render(){list.innerHTML='';let d=0;todos.forEach((t,i)=>{if(t.done)d++;const li=document.createElement('li');if(t.done)li.classList.add('done');li.innerHTML=`<div onclick="toggle(${i})"><div>${t.text}</div><div class='time'>${new Date(t.time).toLocaleString()} ${t.repeat!='none'?'('+t.repeat+')':''}</div></div><span onclick="removeTodo(${i})">✕</span>`;list.appendChild(li)});total.textContent=todos.length;done.textContent=d;pending.textContent=todos.length-d}
+function addTodo(){if(!task.value||!time.value)return;const t={text:task.value,time:time.value,repeat:repeat.value,done:false};todos.push(t);schedule(t);save();render();task.value='';time.value=''}
+function toggle(i){todos[i].done=!todos[i].done;save();render()}
+function removeTodo(i){todos.splice(i,1);save();render()}
+function schedule(t){const d=new Date(t.time)-new Date();if(d>0)setTimeout(()=>notify(t),d)}
+function notify(t){if(Notification.permission==='granted')new Notification('Reminder',{body:t.text});if(t.repeat!='none'){const next=new Date(t.time);if(t.repeat=='daily')next.setDate(next.getDate()+1);if(t.repeat=='weekly')next.setDate(next.getDate()+7);t.time=next.toISOString().slice(0,16);schedule(t);save();render()}}
+todos.forEach(schedule);render();
+function startFocus(){clearInterval(focusInt);seconds=1500;focusInt=setInterval(()=>{seconds--;timer.textContent=Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,'0');if(seconds<=0){clearInterval(focusInt);new Notification('Focus Complete')}} ,1000)}
+</script>
+</body>
+</html>
