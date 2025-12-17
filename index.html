@@ -16,7 +16,7 @@
   --muted:#9aa4b2;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
+body{margin:0;font-family:Inter;background:var(--bg);color:var(--text);cursor: url(normal.cur),auto;}
 body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(rgba(0,246,255,.15)1.2px,transparent 1px);background-size:32px 32px;animation:bg 25s linear infinite;z-index:-1}
 @keyframes bg{to{background-position:400px 0}}
 
@@ -24,7 +24,7 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 
 aside{padding:20px;border-right:1px solid rgba(255,255,255,.1)}
 aside h1{font-family:Orbitron;color:var(--primary);margin-bottom:30px}
-aside div{padding:12px;border-radius:12px;color:var(--muted);cursor:pointer}
+aside div{padding:12px;border-radius:12px;color:var(--muted);cursor:url(select.cur),pointer}
 aside div.active{background:rgba(0,246,255,.15);color:var(--primary)}
 
 main{padding:20px;overflow-y:auto}
@@ -34,15 +34,15 @@ main{padding:20px;overflow-y:auto}
 
 input,select,button{width:100%;padding:12px;border-radius:12px;border:none;outline:none;font-size:.9rem}
 input,select{background:rgba(255,255,255,.1);color:var(--text);margin-bottom:10px}
-button{background:linear-gradient(90deg,var(--primary),var(--secondary));font-weight:600;cursor:pointer}
+button{background:linear-gradient(90deg,var(--primary),var(--secondary));font-weight:600;cursor:url(select.cur),pointer}
 button:active{transform:scale(.97)}
 
 ul{list-style:none;padding:0;margin:0}
-li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;transition:.2s;cursor:pointer}
+li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;transition:.2s;cursor:url(select.cur),pointer}
 li:hover{transform:scale(1.01)}
 li.done{text-decoration:line-through;opacity:.6}
 .time{font-size:.75rem;color:var(--muted)}
-.actions span{margin-left:10px;cursor:pointer}
+.actions span{margin-left:10px;cursor:url(select.cur),pointer}
 
 .stats{display:flex;gap:12px}
 .stats div{flex:1;text-align:center}
@@ -72,7 +72,7 @@ li.done{text-decoration:line-through;opacity:.6}
 <div class="card">
 <input id="task" placeholder="New task">
 <input id="time" type="datetime-local">
-<select id="repeat">
+<select id="repeat" style="background-color: rgb(0, 0, 67);">
 <option value="none">No Repeat</option>
 <option value="daily">Daily</option>
 <option value="weekly">Weekly</option>
