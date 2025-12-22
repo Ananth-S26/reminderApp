@@ -1,0 +1,232 @@
+:root{
+    --bg:#0b0f14;
+    --card:rgba(255,255,255,0.08);
+    --primary:#00f6ff;
+    --secondary:#7cff6b;
+    --danger:#ff4d4d;
+    --text:#e6f1ff;
+    --muted:#9aa4b2;
+  }
+  
+  /* RESET */
+  *{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+  }
+  
+  body{
+    font-family:Inter,system-ui;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+  }
+  
+  /* BACKGROUND GRID */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:radial-gradient(rgba(0,246,255,.15) 1.2px,transparent 1px);
+    background-size:32px 32px;
+    animation:bgmove 25s linear infinite;
+    z-index:-1;
+  }
+  
+  @keyframes bgmove{
+    to{background-position:400px 0}
+  }
+  
+  /* TOP BAR */
+  .topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:64px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 16px;
+    background:rgba(11,15,20,.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    z-index:2000;
+  }
+  
+  /* HAMBURGER */
+  .hamburger{
+    background:none;
+    border:none;
+    font-size:26px;
+    color:var(--primary);
+    cursor:pointer;
+  }
+  
+  /* TITLE */
+  .apptitle{
+    font-family:Orbitron;
+    font-size:1.2rem;
+    color:var(--primary);
+    white-space:nowrap;
+  }
+  
+  /* APP LAYOUT */
+  .app{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:260px 1fr;
+    min-height:100vh;
+    padding-top:70px;
+  }
+  
+  /* SIDEBAR */
+  aside{
+    padding:20px;
+    border-right:1px solid rgba(255,255,255,.1);
+    background:var(--bg);
+  }
+  
+  aside div{
+    padding:14px;
+    border-radius:14px;
+    margin-bottom:10px;
+    cursor:pointer;
+    color:var(--muted);
+    transition:.2s;
+  }
+  
+  aside div:hover{
+    background:rgba(255,255,255,.06);
+  }
+  
+  aside div.active{
+    background:rgba(0,246,255,.15);
+    color:var(--primary);
+  }
+  
+  /* MAIN */
+  main{
+    padding:20px;
+  }
+  
+  /* CARD */
+  .card{
+    background:linear-gradient(135deg,var(--card),transparent);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+  }
+  
+  /* INPUTS */
+  input,select,button{
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    font-size:.9rem;
+  }
+  
+  input,select{
+    background:rgba(255,255,255,.1);
+    color:var(--text);
+    margin-bottom:10px;
+  }
+  
+  button{
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+    font-weight:600;
+    cursor:pointer;
+  }
+  
+  /* TASK LIST */
+  ul{
+    list-style:none;
+  }
+  
+  li{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    padding:14px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  }
+  
+  li.done{
+    opacity:.6;
+    text-decoration:line-through;
+  }
+  
+  .time{
+    font-size:.75rem;
+    color:var(--muted);
+  }
+  
+  .actions span{
+    margin-left:10px;
+    cursor:pointer;
+  }
+  
+  /* STATS */
+  .stats{
+    display:flex;
+    gap:12px;
+  }
+  
+  .stats div{
+    flex:1;
+    text-align:center;
+  }
+  
+  /* FOCUS */
+  .focus{
+    text-align:center;
+  }
+  
+  .timer{
+    font-size:2.8rem;
+    font-family:Orbitron;
+    margin:10px 0;
+  }
+  
+  .progress{
+    height:8px;
+    background:rgba(255,255,255,.1);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  
+  .progress div{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+  }
+  
+  /* MOBILE */
+  @media(max-width:900px){
+    .app{
+      grid-template-columns:1fr;
+    }
+  
+    aside{
+      position:fixed;
+      top:64px;
+      left:-100%;
+      width:260px;
+      height:calc(100% - 64px);
+      z-index:1500;
+      transition:.3s ease;
+      border-right:none;
+    }
+  
+    aside.show{
+      left:0;
+    }
+  }
+  
