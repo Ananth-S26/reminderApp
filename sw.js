@@ -11,13 +11,7 @@ const ASSETS = [
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js");
 
-const firebaseConfig ({
-  apiKey: "BCI0fuf200mjg3WoRYzUvwtVUH4q1a9-9H6QpqQ_G26FZrkOTgzLPt__9wJTlgSW1ujUFVcu8HtePs0raW8nUBs",
-  authDomain: "notifyme-pro-87f7f.firebaseapp.com",
-  projectId: "notifyme-pro-87f7f",
-  messagingSenderId: "159097240950",
-  appId: "1:159097240950:web:87e2bfce2cd4ba7bdece57"
-});
+
 
 const messaging = firebase.messaging();
 
